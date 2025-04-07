@@ -2,26 +2,37 @@ import pandas as pd
 import streamlit as st
 import plotly.express as px
 
+# Load data
 df = pd.read_csv("vehicles_us.csv")
-df['price'] = pd.to_numeric(df['price'], errors='coerce')  # Convert 'price' to numeric (float64), invalid values will become NaN
 
-# Remove any rows where 'price' is NaN
+# Convert price to numeric before any operations
+df['price'] = pd.to_numeric(df['price'], errors='coerce')
+
+# Remove rows with NaN price
 df = df.dropna(subset=['price'])
 
+# Display basic app info
 st.title("Vehicle Data Analysis")
 st.write("This app analyzes vehicle data from the US.")
 st.write("The dataset contains information about various vehicles, including their make, model, year, and price.\n Cars less than \$500 or greater than $100,000 are removed from the dataset.")
 
+# Show data overview
 st.header("Data Overview")
 st.write("The dataset contains the following columns:")
 st.write(df.columns.tolist())
 st.write("The dataset contains the following number of rows:")
 st.write(len(df))
+
+# Display the first few rows - avoid Arrow conversion issues
 st.write("The first few rows of the dataset:")
-
-df['price'] = df['price'].astype(float)
-
-st.dataframe(df.head())
+# Create a copy of the head data and reset the index
+display_df = df.head().copy().reset_index(drop=True)
+# Convert problematic columns explicitly to Python types
+for col in display_df.columns:
+    if pd.api.types.is_numeric_dtype(display_df[col]):
+        display_df[col] = display_df[col].astype(str).astype(object)
+# Use st.table which doesn't use Arrow conversion
+st.table(display_df)
 
 
 df = df.dropna(subset=['price', 'type', 'fuel', 'model_year'])
