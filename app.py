@@ -3,8 +3,10 @@ import streamlit as st
 import plotly.express as px
 
 df = pd.read_csv("vehicles_us.csv")
-df['price'] = pd.to_numeric(df['price'], errors='coerce')  # This will convert the column to numeric, setting errors to 'coerce' converts invalid entries to NaN
+df['price'] = pd.to_numeric(df['price'], errors='coerce')  # Convert 'price' to numeric (float64), invalid values will become NaN
 
+# Remove any rows where 'price' is NaN
+df = df.dropna(subset=['price'])
 
 st.title("Vehicle Data Analysis")
 st.write("This app analyzes vehicle data from the US.")
