@@ -26,7 +26,7 @@ st.write(len(df))
 # Display the first few rows - avoid Arrow conversion issues
 st.write("The first few rows of the dataset:")
 # Create a copy of the head data and reset the index
-display_df = df.head().copy().reset_index(drop=True)
+# display_df = df.head().copy().reset_index(drop=True)
 # Convert problematic columns explicitly to Python types
 for col in display_df.columns:
     if pd.api.types.is_numeric_dtype(display_df[col]):
