@@ -28,11 +28,7 @@ st.write("The first few rows of the dataset:")
 # Create a copy of the head data and reset the index
 # display_df = df.head().copy().reset_index(drop=True)
 # Convert problematic columns explicitly to Python types
-for col in display_df.columns:
-    if pd.api.types.is_numeric_dtype(display_df[col]):
-        display_df[col] = display_df[col].astype(str).astype(object)
-# Use st.table which doesn't use Arrow conversion
-st.table(display_df)
+
 
 
 df = df.dropna(subset=['price', 'type', 'fuel', 'model_year'])
