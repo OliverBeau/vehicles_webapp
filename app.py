@@ -18,7 +18,10 @@ st.write(df.columns.tolist())
 st.write("The dataset contains the following number of rows:")
 st.write(len(df))
 st.write("The first few rows of the dataset:")
-st.write(df.head())
+
+df['price'] = df['price'].astype(float)
+
+st.dataframe(df.head())
 
 
 df = df.dropna(subset=['price', 'type', 'fuel', 'model_year'])
